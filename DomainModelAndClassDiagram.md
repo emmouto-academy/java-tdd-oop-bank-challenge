@@ -36,6 +36,11 @@ record Transaction()
     Date date
     BigDecimal amount
     BigDecimal balance
+    TransactionType type
+
+enum TransactionType
+    CREDIT
+    DEBIT
 
 class BankStatement()
     generateStatement(transactions) : String
@@ -87,6 +92,13 @@ class Transaction {
     - LocalDate date
     - BigDecimal amount
     - BigDecimal balance
+    - TransactionType type
+}
+
+class TransactionType {
+    <<enumeration>>
+    DEBIT,
+    CREDIT
 }
 
 class BankStatement {
@@ -95,7 +107,9 @@ class BankStatement {
 
 Account <|-- SavingsAccount : inherits
 Account <|-- CurrentAccount : inherits
-Account *-- Transaction : has
+
+Account *-- Transaction : records
 BankStatement --> Transaction : formats
+Transaction --> TransactionType : has
 
 ```
