@@ -115,11 +115,14 @@ I want to approve or reject overdraft requests.
 ```java
 Need to introduce Customers and BankManagers to manage this... or do we? Unsure if it''s overengineering ;__;
 
-class Customer
-    List<Account> accounts;
-
 class BankManager
-    List<Branch> branches; 
+    List<Branch> branches
+
+class Branch
+    List<Customer> customers
+
+class Customer
+    List<Account> accounts
     
 class OverdraftRequest
     BigDecimal amount
@@ -137,30 +140,18 @@ enum OverdraftStatus
 ```mermaid
 classDiagram
 
-class Customer { 
-    - List~Account~ accounts
-}
-    
 class BankManager {
     List~Branch~ branches
-}
-    
-class OverdraftRequest {
-    BigDecimal amount
-    OverdraftStatus status
-}
-
-class OverdraftStatus {
-    <<enumeration>>
-    PENDING
-    APPROVED
-    REJECTED
 }
 
 class Branch {
     - String name
-    - List~Account~ accounts
+    - List~Customers~ customers
     + getName() String
+}
+
+class Customer { 
+    - List~Account~ accounts
     + addAccount(Account account) void
     + getAccounts() List~Account~
 }
@@ -176,7 +167,8 @@ class Account {
     + getTransactions() List~Transaction~
     + getBranch() Branch
     + setBranch() void
-}
+    + requestOverdraft() OverdraftRequest
+}    
 
 class SavingsAccount {
 
@@ -184,6 +176,18 @@ class SavingsAccount {
 
 class CurrentAccount {
 
+}
+
+class OverdraftRequest {
+    BigDecimal amount
+    OverdraftStatus status
+}
+
+class OverdraftStatus {
+    <<enumeration>>
+    PENDING
+    APPROVED
+    REJECTED
 }
 
 class Transaction {
@@ -211,7 +215,6 @@ Customer "1" --> "0..*" Account : owns
 Account <|-- SavingsAccount : inherits
 Account <|-- CurrentAccount : inherits
 
-Branch "1" -- "0..*" Account : has
 Account "1" *-- "0..*" Transaction : records
 Transaction "1" --> "1" TransactionType : has
 BankStatement --> Transaction : formats
