@@ -49,7 +49,18 @@ public class AccountTest {
 
         Assertions.assertThrows(
             IllegalArgumentException.class, 
-            () -> account.withdraw(new BigDecimal(-500))
+            () -> account.withdraw(new BigDecimal(500))
+        );
+    }
+
+    @Test
+    public void withdraw_canWithdrawWholeBalance() {
+        Account account = new SavingsAccount();
+
+        account.deposit(new BigDecimal(1000));
+
+        Assertions.assertDoesNotThrow(
+            () -> account.withdraw(new BigDecimal(1000))
         );
     }
 }

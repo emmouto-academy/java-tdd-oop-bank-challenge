@@ -18,6 +18,9 @@ public abstract class Account {
     }
 
     public void deposit(BigDecimal amount, LocalDate date) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0)
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+
         transactions.add(new Transaction(date, amount, balance.add(amount), TransactionType.CREDIT));
         balance = balance.add(amount);
     }
@@ -27,6 +30,12 @@ public abstract class Account {
     }
 
     public void withdraw(BigDecimal amount, LocalDate date) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0)
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+
+        if (amount.compareTo(balance) > 0)
+            throw new IllegalArgumentException("Insufficient funds");
+
         transactions.add(new Transaction(date, amount, balance.subtract(amount), TransactionType.DEBIT));
         balance = balance.subtract(amount);
     }
