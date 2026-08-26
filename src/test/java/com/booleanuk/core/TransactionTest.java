@@ -15,7 +15,8 @@ public class TransactionTest {
         Transaction transaction = new Transaction(
             date, 
             new BigDecimal(1000), 
-            new BigDecimal(1000)
+            new BigDecimal(1000),
+            TransactionType.CREDIT
         );
 
         Assertions.assertEquals(date, transaction.date());
@@ -30,7 +31,7 @@ public class TransactionTest {
 
         account.deposit(new BigDecimal(1000), date);
         
-        Assertions.assertEquals(1, account.getTransactions.size());
+        Assertions.assertEquals(1, account.getTransactions().size());
     }
 
     @Test
@@ -41,6 +42,6 @@ public class TransactionTest {
         account.deposit(new BigDecimal(1000), date);
         account.withdraw(new BigDecimal(500), date);
         
-        Assertions.assertEquals(2, account.getTransactions.size());
+        Assertions.assertEquals(2, account.getTransactions().size());
     }
 }
