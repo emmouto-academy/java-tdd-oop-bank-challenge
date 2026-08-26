@@ -20,7 +20,7 @@ public class OverdraftTest {
         customer.addAccount(account);
         // account needs to belong to customer, check?
 
-        OverdraftRequest request = customer.requestOverdraft(account, new BigDecimal(500))
+        OverdraftRequest request = customer.requestOverdraft(account, new BigDecimal(500));
 
         Assertions.assertEquals(OverdraftStatus.PENDING, request.getStatus());
     }
@@ -37,7 +37,7 @@ public class OverdraftTest {
 
     @Test
     public void manager_canRejectOverdraft() {
-        OankManager manager = new BankManager();
+        BankManager manager = new BankManager();
         OverdraftRequest request = new OverdraftRequest(new BigDecimal(100));
 
         manager.reject(request);

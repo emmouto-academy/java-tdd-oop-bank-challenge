@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Branch {
     String name;
-    List<Account> accounts;
+    List<Account> accounts; // TODO change to customer
 
     public Branch(String name) {
         this.name = name;
@@ -17,7 +17,7 @@ public class Branch {
 
     public void addAccount(Account account) {
         accounts.add(account);
-        account.setBranch(this);
+        account.setBranch(this); // TODO move to Customer and figure out how this should work
     }
 
     public List<Account> getAccounts() {
