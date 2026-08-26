@@ -62,6 +62,15 @@ abstract class Account()
     withdraw() : void
 ```
 
+``` java 
+5. Extension 1
+As an engineer,
+So I don''t need to keep track of state,
+I want account balances to be calculated based on transaction history instead of stored in memory.
+
+remove BigDecimal balance from class Account and record Transaction
+change getBalance() to calculate based on transactions
+```
 
 # Class Diagram
 

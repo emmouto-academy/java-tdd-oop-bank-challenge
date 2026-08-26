@@ -19,7 +19,7 @@ public class BankStatementTest {
         account.withdraw(new BigDecimal(500), 
                         LocalDate.of(2012, 01, 14));
 
-        String actual = statement.generateBankStatement(account.getTransactions());
+        String actual = statement.generateStatement(account.getTransactions());
         String expected = """
 date       ||   credit ||    debit ||  balance
 14/01/2012 ||          ||   500.00 ||  2500.00

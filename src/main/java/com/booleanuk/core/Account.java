@@ -9,11 +9,9 @@ import java.util.List;
  * Account
  */
 public abstract class Account {
-    BigDecimal balance;
     List<Transaction> transactions;
 
     public Account() {
-        this.balance = new BigDecimal(0);
         transactions = new ArrayList<>();
     }
 
@@ -21,8 +19,7 @@ public abstract class Account {
         if (amount.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Deposit amount must be positive.");
 
-        transactions.add(new Transaction(date, amount, balance.add(amount), TransactionType.CREDIT));
-        balance = balance.add(amount);
+        transactions.add(new Transaction(date, amount, TransactionType.CREDIT));
     }
 
     public void deposit(BigDecimal amount) {
@@ -33,11 +30,10 @@ public abstract class Account {
         if (amount.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Deposit amount must be positive.");
 
-        if (amount.compareTo(balance) > 0)
+        if (amount.compareTo(getBalance()) > 0)
             throw new IllegalArgumentException("Insufficient funds");
 
-        transactions.add(new Transaction(date, amount, balance.subtract(amount), TransactionType.DEBIT));
-        balance = balance.subtract(amount);
+        transactions.add(new Transaction(date, amount, TransactionType.DEBIT));
     }
 
     public void withdraw(BigDecimal amount) {
@@ -45,7 +41,15 @@ public abstract class Account {
     }
 
     public BigDecimal getBalance() {
-        return this.balance;
+        BigDecimal balance = new BigDecimal(0);
+
+        for (Transaction t : transactions) {
+            balance = t.type().equals(TransactionType.CREDIT)
+                ? balance.add(t.amount())
+                : balance.subtract(t.amount());
+        }
+
+        return balance;
     }
 
     public List<Transaction> getTransactions() {

@@ -15,13 +15,11 @@ public class TransactionTest {
         Transaction transaction = new Transaction(
             date, 
             new BigDecimal(1000), 
-            new BigDecimal(1000),
             TransactionType.CREDIT
         );
 
         Assertions.assertEquals(date, transaction.date());
         Assertions.assertEquals(new BigDecimal(1000), transaction.amount());
-        Assertions.assertEquals(new BigDecimal(1000), transaction.balance());
     }
 
     @Test
