@@ -7,6 +7,9 @@ So I can safely store and use my money,
 I want to create a current account.
 
 class CurrentAccount()
+    BigDecimal balance
+    getBalance() : BigDecimal 
+
 ```
 
 ``` java
@@ -15,8 +18,12 @@ As a customer,
 So I can save for a rainy day,
 I want to create a savings account.
 
-class SavingsAccount()
 abstract class Account()
+    BigDecimal balance
+
+class SavingsAccount() extends Account
+class CurrentAccount() extends Account
+
 ```
 
 ``` java
@@ -30,9 +37,13 @@ record Transaction()
     BigDecimal amount
     BigDecimal balance
 
+class BankStatement()
+    generateStatement(transactions) : String
+
 abstract class Account()
     List<Transaction> transactions
-    getTransactions()
+    getTransactions() : List<Transaction>
+
 ```
 
 ``` java
@@ -42,9 +53,8 @@ So I can use my account,
 I want to deposit and withdraw funds.
 
 abstract class Account()
-    BigDecimal balance
-    Transaction deposit()
-    Transaction withdraw()
+    deposit() : void
+    withdraw() : void
 ```
 
 
@@ -58,9 +68,10 @@ class Account {
     <<abstract>>
     - BigDecimal balance
     - List~Transaction~
-    + deposit() boolean
-    + withdraw() boolean
-    + getTransactions transaction
+    + deposit() void
+    + withdraw() void
+    + getBalance() BigDecimal
+    + getTransactions() List~Transaction~
 }
 
 class SavingsAccount {
@@ -73,13 +84,18 @@ class CurrentAccount {
 
 class Transaction {
     <<record>>
-    - Date date
+    - LocalDate date
     - BigDecimal amount
     - BigDecimal balance
 }
 
+class BankStatement {
+    + generateStatement : String
+}
+
 Account <|-- SavingsAccount : inherits
 Account <|-- CurrentAccount : inherits
-Transaction <-- Account : uses
+Account *-- Transaction : has
+BankStatement --> Transaction : formats
 
 ```
