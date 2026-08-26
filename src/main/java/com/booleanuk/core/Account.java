@@ -10,6 +10,7 @@ import java.util.List;
  */
 public abstract class Account {
     List<Transaction> transactions;
+    Branch branch;
 
     public Account() {
         transactions = new ArrayList<>();
@@ -56,4 +57,11 @@ public abstract class Account {
         return this.transactions;
     }
 
+    public Branch getBranch() {
+        return branch;
+    }
+    
+    void setBranch(Branch branch) {
+        this.branch = branch;
+    }
 }

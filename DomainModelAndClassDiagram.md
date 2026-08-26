@@ -84,6 +84,8 @@ class Branch
 
 abstract class Account
     Branch branch;
+
+Does every Account need to have a Branch?
 ```
 
 # Class Diagram
