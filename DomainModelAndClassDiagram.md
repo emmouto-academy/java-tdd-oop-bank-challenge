@@ -72,20 +72,44 @@ remove BigDecimal balance from class Account and record Transaction
 change getBalance() to calculate based on transactions
 ```
 
+``` java
+6. Extension 2
+As a bank manager,
+So I can expand,
+I want accounts to be associated with specific branches.
+
+class Branch 
+    String name
+    List<Account> accounts
+
+abstract class Account
+    Branch branch;
+```
+
 # Class Diagram
 
 ```mermaid
 
 classDiagram
 
+class Branch {
+    - String name
+    - List~Account~ accounts
+    + getName() String
+    + addAccount(Account account) void
+    + getAccounts() List~Account~
+}
+
 class Account {
     <<abstract>>
     - BigDecimal balance
     - List~Transaction~
+    - Branch branch
     + deposit() void
     + withdraw() void
     + getBalance() BigDecimal
     + getTransactions() List~Transaction~
+    + getBranch() branch
 }
 
 class SavingsAccount {
@@ -117,8 +141,9 @@ class BankStatement {
 Account <|-- SavingsAccount : inherits
 Account <|-- CurrentAccount : inherits
 
-Account *-- Transaction : records
+Branch "1" -- "0..*" Account : has
+Account "1" *-- "0..*" Transaction : records
+Transaction "1" --> "1" TransactionType : has
 BankStatement --> Transaction : formats
-Transaction --> TransactionType : has
 
 ```

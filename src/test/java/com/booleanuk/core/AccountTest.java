@@ -63,4 +63,14 @@ public class AccountTest {
             () -> account.withdraw(new BigDecimal(1000))
         );
     }
+
+    @Test
+    public void addAccountToBranch_associatesAccountWithBranch() {
+        Branch branch = new Branch("Gothenburg");
+        Account account = new CurrentAccount();
+
+        branch.addAccount(account);
+
+        Assertions.assertEquals(branch, account.getBranch());
+    }
 }
